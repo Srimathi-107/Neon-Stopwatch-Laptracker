@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Watch Timer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="timer">
+        <div class="header">
+            <p>Stopwatch & Lap Timer</p>
+            <i class="ri-moon-fill" id="darktheme"></i>
+        </div>
+        <div class="time">
+                <p id="showtime">00 : 00 : 00 . 00</p>
+                <div class="buttons">
+                    <button id="start"><i class="ri-play-fill"></i> Start</button>
+                    <button id="lap"><i class="ri-flag-fill"></i> Lap</button>
+                    <button id="reset"><i class="ri-reset-right-fill"></i> Reset</button>
+                </div>
+        </div>
+        <div class="lap">
+            <div id="firstlap">
+                <p id="firsttimelap">--:--:--.--</p>
+                <p class="txt">Fastest Lap</p>
+            </div>
+            <div id="secondlap">
+                <p id="secondtimelap">--:--:--.--</p>
+                <p class="txt">Slowest Lap</p>
+            </div>
+            <div id="thirdlap">
+                <p id="thirdtimelap">--:--:--.--</p>
+                <p class="txt">Average Lap</p>
+            </div>
+        </div>
+        <div class="laptiming">
+            <div class="lapheader">
+                <p>Lap History</p>
+                <button id="exportcsv"><i class="ri-download-2-line"></i>&nbsp;&nbsp;Export CSV</button>
+            </div>
+            <div id="resoflap">
+                <p class="flaglap"><i class="ri-flag-fill"></i></p>
+                <p class="flagtxt">Your lap Time will appear here</p>
+            </div>
+        </div>
+        <p class="btmtxt">Press <button class="btm">Space</button> to start/stop, <button class="btm">L</button> for Lap <button class="btm">R</button> for Reset</p>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

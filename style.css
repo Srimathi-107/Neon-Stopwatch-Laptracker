@@ -1,0 +1,621 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg: #0b0f12;
+    --panel: #12191a;
+    --card: #151d1a;
+    --border: #27322c;
+    --text: #f4f7f0;
+    --muted: #85958a;
+    --accent: #c5ff4a;
+    --green-dark: #19251b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 50% 0%, #1b2920 0%, transparent 48%),
+        var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    transition: background .3s, color .3s;
+}
+
+.timer {
+    width: 100%;
+    max-width: 850px;
+    padding: 30px;
+    background: rgba(15, 21, 22, .96);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: 0 25px 90px rgba(0, 0, 0, .32);
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.header p {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+#darktheme {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--panel);
+    color: var(--accent);
+    font-size: 20px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+#darktheme:hover {
+    transform: rotate(-12deg);
+    border-color: var(--accent);
+}
+
+/* STOPWATCH DISPLAY */
+
+.time {
+    margin-top: 25px;
+    padding: 40px 20px 30px;
+    text-align: center;
+    background: linear-gradient(145deg, #151d1a, #101615);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.time::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 12%;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--accent),
+        transparent
+    );
+}
+
+#showtime {
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(30px, 6vw, 57px);
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 25px rgba(197, 255, 74, .12);
+}
+
+/* CONTROLS */
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.buttons button,
+#exportcsv {
+    min-height: 47px;
+    padding: 0 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s, background .2s, border-color .2s;
+}
+
+.buttons button:hover,
+#exportcsv:hover {
+    transform: translateY(-3px);
+}
+
+.buttons button:active,
+#exportcsv:active {
+    transform: scale(.97);
+}
+
+.buttons button i,
+#exportcsv i {
+    font-size: 18px;
+}
+
+#start {
+    min-width: 130px;
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #11180b;
+}
+
+#start:hover {
+    box-shadow: 0 0 22px rgba(197, 255, 74, .17);
+}
+
+#lap {
+    color: var(--accent);
+    background: #202a22;
+    border-color: #334333;
+}
+
+#lap:hover {
+    border-color: var(--accent);
+}
+
+#reset {
+    color: #ff8585;
+    background: #2a1c20;
+    border-color: #493037;
+}
+
+#reset:hover {
+    border-color: #ff8585;
+}
+
+/* LAP STATISTICS */
+
+.lap {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.lap > div {
+    min-width: 0;
+    padding: 22px 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: transform .2s, border-color .2s;
+}
+
+.lap > div:hover {
+    transform: translateY(-3px);
+    border-color: #45553f;
+}
+
+#firstlap {
+    border-top: 2px solid var(--accent);
+}
+
+#secondlap {
+    border-top: 2px solid #ffae68;
+}
+
+#thirdlap {
+    border-top: 2px solid #76c9ff;
+}
+
+#firsttimelap,
+#secondtimelap,
+#thirdtimelap {
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(11px, 1.6vw, 16px);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+#firsttimelap {
+    color: var(--accent);
+}
+
+#secondtimelap {
+    color: #ffae68;
+}
+
+#thirdtimelap {
+    color: #76c9ff;
+}
+
+.txt {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+/* LAP HISTORY */
+
+.laptiming {
+    margin-top: 23px;
+    overflow: hidden;
+    background: #101615;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+.lapheader {
+    min-height: 67px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: #151d1a;
+    border-bottom: 1px solid var(--border);
+}
+
+.lapheader p {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+}
+
+#exportcsv {
+    min-height: 38px;
+    padding: 0 14px;
+    color: var(--accent);
+    background: #202a22;
+    border-color: #334333;
+    font-size: 11px;
+}
+
+#resoflap {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 17px;
+}
+
+#resoflap:has(.flagtxt) {
+    min-height: 145px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.flaglap {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #334333;
+    border-radius: 12px;
+    background: #202a22;
+    color: var(--accent);
+    font-size: 21px;
+}
+
+.flagtxt {
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+}
+
+#resoflap > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 9px;
+    padding: 15px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #151d1a;
+    transition: border-color .2s;
+}
+
+#resoflap > div:last-child {
+    margin-bottom: 0;
+}
+
+#resoflap > div:hover {
+    border-color: #465541;
+}
+
+#resoflap > div p {
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* KEYBOARD SHORTCUTS */
+
+.btmtxt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 23px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 2;
+    text-align: center;
+}
+
+.btm {
+    min-width: 25px;
+    height: 25px;
+    padding: 0 7px;
+    background: #1b2420;
+    color: var(--accent);
+    border: 1px solid #354235;
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* SCROLLBAR */
+
+#resoflap::-webkit-scrollbar {
+    width: 5px;
+}
+
+#resoflap::-webkit-scrollbar-thumb {
+    background: #455541;
+    border-radius: 10px;
+}
+
+/* LIGHT THEME - TOGGLE WITH EXISTING JS */
+
+body.darkmodeon {
+    --bg: #f2f5f1;
+    --panel: #ffffff;
+    --card: #ffffff;
+    --border: #dce5da;
+    --text: #20291f;
+    --muted: #788576;
+    --accent: #638d18;
+    --green-dark: #eaf2e3;
+
+    background:
+        radial-gradient(ellipse at 50% 0%, #e3f1d7 0%, transparent 48%),
+        var(--bg);
+}
+
+.darkmodeon .timer {
+    background: rgba(255, 255, 255, .95);
+    border-color: var(--border);
+}
+
+.darkmodeon .time {
+    background: linear-gradient(145deg, #f7faf4, #edf4e8);
+    border-color: var(--border);
+}
+
+.darkmodeon #showtime {
+    color: #426b10;
+    text-shadow: none;
+}
+
+.darkmodeon #start {
+    background: #638d18;
+    color: #fff;
+    border-color: #638d18;
+}
+
+.darkmodeon #lap {
+    background: #edf5e5;
+    color: #426b10;
+    border-color: #d5e6c5;
+}
+
+.darkmodeon #reset {
+    background: #fff0f0;
+    color: #d14d59;
+    border-color: #f2d8d9;
+}
+
+.darkmodeon .laptiming {
+    background: #fff;
+}
+
+.darkmodeon .lapheader,
+.darkmodeon #resoflap > div {
+    background: #f7faf4;
+}
+
+.darkmodeon #resoflap > div p {
+    color: var(--text);
+}
+
+.darkmodeon #exportcsv {
+    background: #edf5e5;
+    color: #426b10;
+    border-color: #d5e6c5;
+}
+
+.darkmodeon .btm {
+    background: #f0f5eb;
+    color: #426b10;
+    border-color: #d5e6c5;
+}
+
+.darkmodeon #firsttimelap {
+    color: #426b10;
+}
+
+.darkmodeon #secondtimelap {
+    color: #c16c25;
+}
+
+.darkmodeon #thirdtimelap {
+    color: #267bb1;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+    body {
+        padding: 18px 10px;
+        align-items: flex-start;
+    }
+
+    .timer {
+        padding: 18px 12px;
+        border-radius: 17px;
+    }
+
+    .header {
+        padding-bottom: 18px;
+    }
+
+    .header p {
+        font-size: 15px;
+    }
+
+    #darktheme {
+        width: 38px;
+        height: 38px;
+    }
+
+    .time {
+        margin-top: 18px;
+        padding: 30px 6px 24px;
+    }
+
+    #showtime {
+        font-size: clamp(22px, 6vw, 35px);
+        letter-spacing: 0;
+    }
+
+    .buttons {
+        gap: 8px;
+        margin-top: 23px;
+    }
+
+    .buttons button {
+        min-height: 42px;
+        padding: 0 12px;
+        font-size: 11px;
+    }
+
+    #start {
+        min-width: 95px;
+    }
+
+    .lap {
+        gap: 7px;
+        margin-top: 14px;
+    }
+
+    .lap > div {
+        padding: 17px 4px;
+        border-radius: 10px;
+    }
+
+    #firsttimelap,
+    #secondtimelap,
+    #thirdtimelap {
+        font-size: clamp(8px, 2.4vw, 12px);
+        letter-spacing: -.4px;
+    }
+
+    .txt {
+        margin-top: 10px;
+        font-size: 8px;
+        letter-spacing: .4px;
+    }
+
+    .laptiming {
+        margin-top: 18px;
+    }
+
+    .lapheader {
+        padding: 13px;
+    }
+
+    .lapheader p {
+        font-size: 12px;
+    }
+
+    #exportcsv {
+        min-height: 35px;
+        padding: 0 10px;
+        font-size: 10px;
+    }
+
+    #resoflap {
+        padding: 12px;
+    }
+
+    #resoflap > div {
+        padding: 12px 9px;
+    }
+
+    #resoflap > div p {
+        font-size: 10px;
+    }
+
+    .btmtxt {
+        margin-top: 18px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 350px) {
+    .timer {
+        padding: 14px 8px;
+    }
+
+    #showtime {
+        font-size: 21px;
+    }
+
+    .buttons button {
+        padding: 0 9px;
+    }
+
+    .lap {
+        gap: 4px;
+    }
+
+    #firsttimelap,
+    #secondtimelap,
+    #thirdtimelap {
+        font-size: 8px;
+    }
+
+    .txt {
+        font-size: 7px;
+    }
+}
